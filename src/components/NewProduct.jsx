@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 const NewProduct = () => {
   const [newProduct, setNewProduct] = useState({
@@ -10,18 +11,22 @@ const NewProduct = () => {
     price: "",
     category: "",
   });
-
+  const history = useHistory();
   const createNewProduct = async () => {
     try {
-      let response = await fetch(`${process.env.REACT_APP_URLFETCHING}/products`, {
-        method: "POST",
-        body: JSON.stringify(newProduct),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/products`,
+        {
+          method: "POST",
+          body: JSON.stringify(newProduct),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
-        console.log(response.json());
+        alert("Success!");
+        history.push("/");
       }
     } catch (error) {
       console.log(error);
@@ -39,25 +44,34 @@ const NewProduct = () => {
         <Form.Group controlId="product-form" className="mt-3">
           <Form.Label>Brand</Form.Label>
           <Form.Control
+            value={newProduct.brand}
             size="lg"
             placeholder="Brand"
-            onChange={(e) => setNewProduct({ brand: e.target.value })}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, brand: e.target.value })
+            }
           />
         </Form.Group>
         <Form.Group controlId="product-form" className="mt-3">
           <Form.Label>Name</Form.Label>
           <Form.Control
+            value={newProduct.name}
             size="lg"
             placeholder="Name"
-            onChange={(e) => setNewProduct({ name: e.target.value })}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, name: e.target.value })
+            }
           />
         </Form.Group>
         <Form.Group controlId="product-form" className="mt-3">
           <Form.Label>Price</Form.Label>
           <Form.Control
+            value={newProduct.price}
             size="lg"
             placeholder="Price"
-            onChange={(e) => setNewProduct({ price: e.target.value })}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, price: e.target.value })
+            }
           />
         </Form.Group>
         <Form.Group controlId="product-category" className="mt-3">
@@ -65,22 +79,26 @@ const NewProduct = () => {
           <Form.Control
             size="lg"
             as="select"
-            onChange={(e) => setNewProduct({ category: e.target.value })}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, category: e.target.value })
+            }
           >
-            <option>Category1</option>
-            <option>Category2</option>
-            <option>Category3</option>
-            <option>Category4</option>
-            <option>Category5</option>
+            <option>Phone</option>
+            <option>Not phone</option>
+            <option>Laptop</option>
+            <option>Not laptop</option>
           </Form.Control>
         </Form.Group>
 
         <Form.Group controlId="product-form" className="mt-3">
           <Form.Label>Description</Form.Label>
           <Form.Control
+            value={newProduct.description}
             size="lg"
             placeholder="Description"
-            onChange={(e) => setNewProduct({ description: e.target.value })}
+            onChange={(e) =>
+              setNewProduct({ ...newProduct, description: e.target.value })
+            }
           />
         </Form.Group>
 
@@ -92,7 +110,7 @@ const NewProduct = () => {
             type="submit"
             size="lg"
             variant="dark"
-            style={{ marginLeft: "1em" }}
+            style={{ marginLeft: "1rem" }}
           >
             Submit
           </Button>

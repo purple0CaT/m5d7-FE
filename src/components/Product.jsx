@@ -112,6 +112,7 @@ const Product = ({ match }) => {
             <img
               className="product-details-cover w-100"
               src={product.imageUrl}
+              style={{ maxHeight: "20rem", objectFit: "contain" }}
             />
             <div className="p-2">
               <h1 className="product-details-title">{product.name}</h1>
@@ -119,6 +120,7 @@ const Product = ({ match }) => {
 
               <div className="product-details-container">
                 <div className="product-details-author">
+                  <p>{product.description}</p>
                   Price: £{product.price}
                 </div>
                 <div className="product-details-info">
@@ -141,7 +143,7 @@ const Product = ({ match }) => {
             <div className="mt-5">
               <h4 className="text-center">Reviews</h4>
               <hr />
-              <div style={{ maxHeight: "17rem", overflowY: "scroll" }}>
+              <div className="reviewCont">
                 {reviews.map((review) => (
                   <div
                     key={review._id}
@@ -190,7 +192,7 @@ const Product = ({ match }) => {
                   <Form.Control
                     size="auto"
                     placeholder="Comment"
-                    className='mt-1'
+                    className="mt-1"
                     onChange={(e) =>
                       setNewReview({ ...newReview, comment: e.target.value })
                     }

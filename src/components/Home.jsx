@@ -31,18 +31,19 @@ const Home = () => {
       <Row>
         {productsArray.map((product) => (
           <Col xs={12} md={4} className="my-3">
-            <Link to={`/product/${product.id}`}>
-              <Card className="h-100">
-                <Card.Img variant="top" src={product.imageUrl} />
-                <Card.Body className="px-3 pb-2 text-dark">
-                  <Card.Title>
-                    {product.brand.toUpperCase()} {product.name}
-                  </Card.Title>
-                  <p className="m-0 font-weight-bold text-black-50">
-                    Price :£{product.price}
-                  </p>
-                </Card.Body>
-              </Card>
+            <Link
+              to={`/product/${product.id}`}
+              className="myCard h-100 w-100 card"
+            >
+              <Card.Img variant="top" src={product.imageUrl} />
+              <Card.Body className="px-3 pb-2 text-dark">
+                <Card.Title>
+                  {product.brand} {product.name}
+                </Card.Title>
+                <p className="m-0 font-weight-bold text-black-50">
+                  Price :£{product.price}
+                </p>
+              </Card.Body>
             </Link>
           </Col>
         ))}

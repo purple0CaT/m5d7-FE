@@ -9,13 +9,18 @@ const NavBar = () => {
         Amazon
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Link to="/" className='text-dark' style={{ marginRight: "2em", textDecoration: "none" }}>
+        <Link
+          to="/"
+          className="text-dark"
+          style={{ marginRight: "2em", textDecoration: "none" }}
+        >
           Home
         </Link>
-        <Link to="/products" className='text-dark' style={{ marginRight: "2em" }}>
-          Products
-        </Link>
-        <Link to="/newproduct" className='text-dark' style={{ marginRight: "2em" }}>
+        <Link
+          to="/newproduct"
+          className="text-dark"
+          style={{ marginRight: "2em" }}
+        >
           Add a product
         </Link>
       </Nav>
