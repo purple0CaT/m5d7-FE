@@ -53,7 +53,7 @@ const Product = ({ match }) => {
           }
         );
         if (response.ok) {
-          alert('Success!')
+          alert("Success!");
           setOpen(false);
         } else {
         }
@@ -112,11 +112,10 @@ const Product = ({ match }) => {
     <div className="product-details-root">
       <Container>
         <Row>
-          <Col className="col-9">
-            <Image
-              className="product-details-cover"
+          <Col className="col-9 p-5">
+            <img
+              className="product-details-cover w-100"
               src={product.imageUrl}
-              fluid
             />
             <h1 className="product-details-title">{product.name}</h1>
             <h4 className="product-details-title">{product.brand}</h4>

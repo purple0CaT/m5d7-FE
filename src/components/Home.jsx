@@ -30,16 +30,18 @@ const Home = () => {
       <h1 className="blog-main-title">Welcome to Amazon</h1>
       <Row>
         {productsArray.map((product) => (
-          <Col md={4} style={{ marginBottom: 50 }}>
+          <Col md={4} className="my-3">
             <Link to={`/product/${product.id}`}>
-              <Card>
+              <Card className="h-100">
                 <Card.Img variant="top" src={product.imageUrl} />
-                <Card.Body>
+                <Card.Body className="px-3 pb-2 text-dark">
                   <Card.Title>
                     {product.brand.toUpperCase()} {product.name}
                   </Card.Title>
+                  <p className="m-0 font-weight-bold text-black-50">
+                    Price :£{product.price}
+                  </p>
                 </Card.Body>
-                <Card.Footer>{product.price}</Card.Footer>
               </Card>
             </Link>
           </Col>
