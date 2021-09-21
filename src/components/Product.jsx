@@ -52,13 +52,16 @@ const Product = ({ match }) => {
             body: fileFormData,
           }
         );
-        console.log(response);
+        if (response.ok) {
+          alert('Success!')
+          setOpen(false);
+        } else {
+        }
       } catch (error) {
         console.log(error);
       }
     };
     uploadPhoto(id);
-    setOpen(false);
   };
 
   const fetchReviews = async (id) => {
