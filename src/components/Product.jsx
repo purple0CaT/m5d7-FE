@@ -118,45 +118,55 @@ const Product = ({ match }) => {
               className="product-details-cover w-100"
               src={product.imageUrl}
             />
-            <h1 className="product-details-title">{product.name}</h1>
-            <h4 className="product-details-title">{product.brand}</h4>
+            <div className="p-3">
+              <h1 className="product-details-title">{product.name}</h1>
+              <h4 className="product-details-title">{product.brand}</h4>
 
-            <div className="product-details-container">
-              <div className="product-details-author">
-                Price: £{product.price}
+              <div className="product-details-container">
+                <div className="product-details-author">
+                  Price: £{product.price}
+                </div>
+                <div className="product-details-info">
+                  <div>{product.createdAt}</div>
+                  {/* <div>{`${product.readTime.value} ${product.readTime.unit} read`}</div> */}
+                </div>
               </div>
-              <div className="product-details-info">
-                <div>{product.createdAt}</div>
-                {/* <div>{`${product.readTime.value} ${product.readTime.unit} read`}</div> */}
-              </div>
+              <hr />
+              <Button
+                className="mt-3"
+                onClick={() => setOpen(true)}
+                size="lg"
+                variant="dark"
+              >
+                {" "}
+                Upload Cover
+              </Button>
             </div>
-
-            <Button
-              onClick={() => setOpen(true)}
-              size="lg"
-              variant="dark"
-              style={{ margin: "1em" }}
-            >
-              {" "}
-              Upload Cover
-            </Button>
           </Col>
           <Col className="col-3">
             <div className="mt-5">
-              <Card body>
-                <h4>Reviews</h4>
-              </Card>
+              <h4 className="text-center">Reviews</h4>
+              <hr />
               {reviews.map((review) => (
-                <Card body key={review._id}>
+                <div
+                  body
+                  key={review._id}
+                  className="my-1 d-flex flex-column p-2"
+                  style={{ border: "1px solid #C0C0C0", borderRadius: "10px" }}
+                >
                   <h5>{review.comment}</h5>
-                  <small>{review.rate}</small>
+                  <small>Rate: {review.rate}</small>
                   <small>{review.createdAt}</small>
-                </Card>
+                </div>
               ))}
-              <Form onSubmit={postNewReview}>
+              <hr />
+              <Form
+                className="p-2"
+                onSubmit={postNewReview}
+                style={{ border: "1px solid #C0C0C0", borderRadius: "10px" }}
+              >
+                <h5 className="text-center">Leave a review</h5>
                 <Form.Group>
-                  <Form.Label>Leave a review</Form.Label>
-
                   <Form.Control
                     size="auto"
                     as="select"
@@ -177,13 +187,8 @@ const Product = ({ match }) => {
                       setNewReview({ ...newReview, comment: e.target.value })
                     }
                   />
-                  <Form.Group className="d-flex mt-3">
-                    <Button
-                      type="submit"
-                      size="lg"
-                      variant="dark"
-                      style={{ marginLeft: "1em" }}
-                    >
+                  <Form.Group className="d-flex justify-content-center mt-3">
+                    <Button type="submit" size="lg" variant="dark">
                       Submit Review
                     </Button>
                   </Form.Group>
@@ -224,13 +229,8 @@ const Product = ({ match }) => {
                   required
                 />
               </Form.Group>
-              <Form.Group className="d-flex mt-3">
-                <Button
-                  type="submit"
-                  size="lg"
-                  variant="dark"
-                  style={{ marginLeft: "1em" }}
-                >
+              <Form.Group className="d-flex justify-content-end">
+                <Button type="submit" size="lg" variant="dark">
                   Submit
                 </Button>
               </Form.Group>
