@@ -108,12 +108,12 @@ const Product = ({ match }) => {
     <div className="product-details-root">
       <Container>
         <Row>
-          <Col xs="12" md={9} className="p-5">
+          <Col xs="12" md={9} className="p-1">
             <img
               className="product-details-cover w-100"
               src={product.imageUrl}
             />
-            <div className="p-3">
+            <div className="p-2">
               <h1 className="product-details-title">{product.name}</h1>
               <h4 className="product-details-title">{product.brand}</h4>
 
@@ -123,7 +123,6 @@ const Product = ({ match }) => {
                 </div>
                 <div className="product-details-info">
                   <div>{product.createdAt}</div>
-                  {/* <div>{`${product.readTime.value} ${product.readTime.unit} read`}</div> */}
                 </div>
               </div>
               <hr />
@@ -191,6 +190,7 @@ const Product = ({ match }) => {
                   <Form.Control
                     size="auto"
                     placeholder="Comment"
+                    className='mt-1'
                     onChange={(e) =>
                       setNewReview({ ...newReview, comment: e.target.value })
                     }
@@ -238,6 +238,14 @@ const Product = ({ match }) => {
                 />
               </Form.Group>
               <Form.Group className="d-flex justify-content-end">
+                <Button
+                  className="mr-2"
+                  onClick={() => setOpen(false)}
+                  size="lg"
+                  variant="light"
+                >
+                  Close
+                </Button>
                 <Button type="submit" size="lg" variant="dark">
                   Submit
                 </Button>
