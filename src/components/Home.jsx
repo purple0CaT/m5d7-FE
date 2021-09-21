@@ -30,7 +30,7 @@ const Home = () => {
       <h1 className="blog-main-title">Welcome to Amazon</h1>
       <Row>
         {productsArray.map((product) => (
-          <Col md={4} className="my-3">
+          <Col xs={12} md={4} className="my-3">
             <Link to={`/product/${product.id}`}>
               <Card className="h-100">
                 <Card.Img variant="top" src={product.imageUrl} />

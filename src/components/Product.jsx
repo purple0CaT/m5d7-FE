@@ -113,7 +113,7 @@ const Product = ({ match }) => {
     <div className="product-details-root">
       <Container>
         <Row>
-          <Col className="col-9 p-5">
+          <Col xs="12" md={9} className="p-5">
             <img
               className="product-details-cover w-100"
               src={product.imageUrl}
@@ -143,7 +143,7 @@ const Product = ({ match }) => {
               </Button>
             </div>
           </Col>
-          <Col className="col-3">
+          <Col xs={12} md={3}>
             <div className="mt-5">
               <h4 className="text-center">Reviews</h4>
               <hr />
