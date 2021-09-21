@@ -39,29 +39,28 @@ const Product = ({ match }) => {
     }
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     const fileFormData = new FormData();
     fileFormData.append("image", file);
-    const uploadPhoto = async (id) => {
-      try {
-        let response = await fetch(
-          `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadPhoto`,
-          {
-            method: "PUT",
-            body: fileFormData,
-          }
-        );
-        if (response.ok) {
-          alert("Success!");
-          setOpen(false);
-          fetchProduct(id);
-        } else {
+
+    try {
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadPhoto`,
+        {
+          method: "PUT",
+          body: fileFormData,
         }
-      } catch (error) {
-        console.log(error);
+      );
+      if (response.ok) {
+        alert("Success!");
+        setOpen(false);
+        fetchProduct(id);
+      } else {
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchReviews = async (id) => {
@@ -160,6 +159,7 @@ const Product = ({ match }) => {
                 </div>
               ))}
               <hr />
+              {/* UPDATE IMG */}
               <Form
                 className="p-2"
                 onSubmit={postNewReview}
