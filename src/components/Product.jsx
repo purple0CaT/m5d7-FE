@@ -53,9 +53,9 @@ const Product = ({ match }) => {
         }
       );
       if (response.ok) {
-        alert("Success!");
         setOpen(false);
         fetchProduct(id);
+        alert("Success!");
       } else {
       }
     } catch (error) {
