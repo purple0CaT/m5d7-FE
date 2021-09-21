@@ -76,9 +76,8 @@ const Product = ({ match }) => {
     }
   };
 
-  const postNewReview = async (e, id) => {
+  const postNewReview = async (e) => {
     e.preventDefault(e);
-    console.log(newReview);
     try {
       let response = await fetch(
         `${process.env.REACT_APP_URLFETCHING}/reviews`,
@@ -91,22 +90,19 @@ const Product = ({ match }) => {
         }
       );
       if (response.ok) {
-        fetchReviews(id);
         alert("Success!");
+        fetchReviews(id);
+      } else {
+        alert("Error !");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     fetchProduct(id);
     fetchReviews(id);
   }, []);
-
-  // useEffect(() => {
-  //   fetchProduct(id);
-  // }, [open]);
 
   return (
     <div className="product-details-root">
@@ -146,18 +142,24 @@ const Product = ({ match }) => {
             <div className="mt-5">
               <h4 className="text-center">Reviews</h4>
               <hr />
-              {reviews.map((review) => (
-                <div
-                  body
-                  key={review._id}
-                  className="my-1 d-flex flex-column p-2"
-                  style={{ border: "1px solid #C0C0C0", borderRadius: "10px" }}
-                >
-                  <h5>{review.comment}</h5>
-                  <small>Rate: {review.rate}</small>
-                  <small>{review.createdAt}</small>
-                </div>
-              ))}
+              <div style={{ height: "17rem", overflowY: "scroll" }}>
+                {reviews.map((review) => (
+                  <div
+                    key={review._id}
+                    className="my-1 d-flex flex-column p-2"
+                    style={{
+                      border: "1px solid #C0C0C0",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <h5>{review.comment}</h5>
+                    <small>Rate: {review.rate}</small>
+                    <small>{review.createdAt}</small>
+                    <small className="text-muted">id: {review._id}</small>
+                  </div>
+                ))}
+              </div>
+
               <hr />
               {/* UPDATE IMG */}
               <Form
@@ -168,6 +170,7 @@ const Product = ({ match }) => {
                 <h5 className="text-center">Leave a review</h5>
                 <Form.Group>
                   <Form.Control
+                    defaultValue="1"
                     size="auto"
                     as="select"
                     onChange={(e) =>
