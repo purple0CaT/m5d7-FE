@@ -55,13 +55,13 @@ const Product = ({ match }) => {
         if (response.ok) {
           alert("Success!");
           setOpen(false);
+          fetchProduct(id);
         } else {
         }
       } catch (error) {
         console.log(error);
       }
     };
-    uploadPhoto(id);
   };
 
   const fetchReviews = async (id) => {
@@ -92,7 +92,8 @@ const Product = ({ match }) => {
         }
       );
       if (response.ok) {
-        console.log(await response.json());
+        alert("Success!");
+        fetchReviews();
       }
     } catch (error) {
       console.log(error);
