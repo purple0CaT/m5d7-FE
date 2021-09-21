@@ -142,7 +142,7 @@ const Product = ({ match }) => {
             <div className="mt-5">
               <h4 className="text-center">Reviews</h4>
               <hr />
-              <div style={{ height: "17rem", overflowY: "scroll" }}>
+              <div style={{ maxHeight: "17rem", overflowY: "scroll" }}>
                 {reviews.map((review) => (
                   <div
                     key={review._id}
