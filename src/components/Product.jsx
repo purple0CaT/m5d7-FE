@@ -46,7 +46,7 @@ const Product = ({ match }) => {
     const uploadPhoto = async (id) => {
       try {
         let response = await fetch(
-          `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadimage`,
+          `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadPhoto`,
           {
             method: "PUT",
             body: fileFormData,
