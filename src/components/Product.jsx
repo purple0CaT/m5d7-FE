@@ -91,8 +91,8 @@ const Product = ({ match }) => {
         }
       );
       if (response.ok) {
-        alert("Success!");
         fetchReviews(id);
+        alert("Success!");
       }
     } catch (error) {
       console.log(error);
