@@ -92,7 +92,7 @@ const Product = ({ match }) => {
       );
       if (response.ok) {
         alert("Success!");
-        fetchReviews();
+        fetchReviews(id);
       }
     } catch (error) {
       console.log(error);
