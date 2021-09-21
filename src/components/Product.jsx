@@ -153,7 +153,12 @@ const Product = ({ match }) => {
                     }}
                   >
                     <h5>{review.comment}</h5>
-                    <small>Rate: {review.rate}</small>
+                    <small>
+                      Rate:{" "}
+                      {Array.from({ length: review.rate }).map((x) =>
+                        review.rate >= 3 ? "⭐️" : "🍅"
+                      )}
+                    </small>
                     <small>{review.createdAt}</small>
                     <small className="text-muted">id: {review._id}</small>
                   </div>
@@ -200,7 +205,7 @@ const Product = ({ match }) => {
             </div>
           </Col>
         </Row>
-
+        {/* IMG UPLOAD */}
         <Modal
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
