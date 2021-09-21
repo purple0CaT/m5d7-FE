@@ -28,7 +28,9 @@ const Product = ({ match }) => {
 
   const fetchProduct = async (id) => {
     try {
-      let response = await fetch(`http://localhost:3003/products/${id}`);
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/products/${id}`
+      );
       let productObj = await response.json();
       setProduct(productObj);
       setLoading(false);
@@ -44,7 +46,7 @@ const Product = ({ match }) => {
     const uploadPhoto = async (id) => {
       try {
         let response = await fetch(
-          `http://localhost:3003/products/${id}/uploadimage`,
+          `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadimage`,
           {
             method: "PUT",
             body: fileFormData,
@@ -62,7 +64,7 @@ const Product = ({ match }) => {
   const fetchReviews = async (id) => {
     try {
       let response = await fetch(
-        `http://localhost:3003/products/${id}/reviews`
+        `${process.env.REACT_APP_URLFETCHING}/products/${id}/reviews`
       );
       let fetchedReviews = await response.json();
       setReviews(fetchedReviews);
@@ -76,13 +78,16 @@ const Product = ({ match }) => {
     e.preventDefault(e);
     console.log(newReview);
     try {
-      let response = await fetch(`http://localhost:3003/reviews`, {
-        method: "POST",
-        body: JSON.stringify(newReview),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/reviews`,
+        {
+          method: "POST",
+          body: JSON.stringify(newReview),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
         console.log(await response.json());
       }

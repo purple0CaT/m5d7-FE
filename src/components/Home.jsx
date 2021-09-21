@@ -9,7 +9,9 @@ const Home = () => {
 
   const fetchProducts = async () => {
     try {
-      let response = await fetch(`http://localhost:3003/products/`);
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/products/`
+      );
       let products = await response.json();
       setProductsArray(products);
       setLoading(false);
