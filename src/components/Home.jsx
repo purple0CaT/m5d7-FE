@@ -27,7 +27,7 @@ const Home = () => {
 
   return (
     <Container fluid="sm">
-      <h1 className="blog-main-title">Welcome to Amazon</h1>
+      <h1 className="blog-main-title">Welcomennnnne</h1>
       <Row>
         {productsArray.map((product) => (
           <Col xs={12} md={4} className="my-3">
@@ -35,7 +35,7 @@ const Home = () => {
               to={`/product/${product.id}`}
               className="myCard h-100 w-100 card"
             >
-              <Card.Img variant="top" src={product.imageUrl} />
+              <Card.Img variant="top" src={product.image_url} />
               <Card.Body className="px-3 pb-2 text-dark">
                 <Card.Title>
                   {product.brand} {product.name}

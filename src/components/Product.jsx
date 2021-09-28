@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
   Container,
-  Col,
-  Row,
-  Button,
-  Image,
-  Form,
-  Card,
   Modal,
+  Form,
+  Button,
+  Row,
+  Col,
+  Spinner,
 } from "react-bootstrap";
 import { withRouter } from "react-router";
 // import uniqid from "uniqid";
@@ -21,19 +20,21 @@ const Product = ({ match }) => {
   const [newReview, setNewReview] = useState({
     comment: "",
     rate: "",
-    productId: id,
+    product_id: id,
   });
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
 
   const fetchProduct = async (id) => {
     try {
-      let response = await fetch(
+      const response = await fetch(
         `${process.env.REACT_APP_URLFETCHING}/products/${id}`
       );
-      let productObj = await response.json();
-      setProduct(productObj);
-      setLoading(false);
+      if (response.ok) {
+        const data = await response.json();
+        setLoading(false);
+        setProduct(data);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -54,8 +55,8 @@ const Product = ({ match }) => {
       );
       if (response.ok) {
         setOpen(false);
-        fetchProduct(id);
         alert("Success!");
+        fetchProduct(id);
       } else {
       }
     } catch (error) {
@@ -63,18 +64,18 @@ const Product = ({ match }) => {
     }
   };
 
-  const fetchReviews = async (id) => {
-    try {
-      let response = await fetch(
-        `${process.env.REACT_APP_URLFETCHING}/products/${id}/reviews`
-      );
-      let fetchedReviews = await response.json();
-      setReviews(fetchedReviews);
-      // setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchReviews = async (id) => {
+  //   try {
+  //     let response = await fetch(
+  //       `${process.env.REACT_APP_URLFETCHING}/products/${id}/reviews`
+  //     );
+  //     let fetchedReviews = await response.json();
+  //     setReviews(fetchedReviews);
+  //     // setLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const postNewReview = async (e) => {
     e.preventDefault(e);
@@ -91,7 +92,7 @@ const Product = ({ match }) => {
       );
       if (response.ok) {
         alert("Success!");
-        fetchReviews(id);
+        // fetchReviews(id);
       } else {
         alert("Error !");
       }
@@ -101,112 +102,117 @@ const Product = ({ match }) => {
   };
   useEffect(() => {
     fetchProduct(id);
-    fetchReviews(id);
+    // fetchReviews(id);
   }, []);
 
   return (
     <div className="product-details-root">
       <Container>
-        <Row>
-          <Col xs="12" md={9} className="p-1">
-            <img
-              className="product-details-cover w-100"
-              src={product.imageUrl}
-              style={{ maxHeight: "20rem", objectFit: "contain" }}
-            />
-            <div className="p-2">
-              <h1 className="product-details-title">{product.name}</h1>
-              <h4 className="product-details-title">{product.brand}</h4>
+        {!loading && product[0] ? (
+          <Row>
+            <Col xs="12" md={9} className="p-1">
+              <img
+                className="product-details-cover w-100"
+                src={product[0].image_url}
+                style={{ maxHeight: "20rem", objectFit: "contain" }}
+              />
+              <div className="p-2">
+                <h1 className="product-details-title">{product[0].name}</h1>
+                <h4 className="product-details-title">{product[0].brand}</h4>
 
-              <div className="product-details-container">
-                <div className="product-details-author">
-                  <p>{product.description}</p>
-                  Price: £{product.price}
-                </div>
-                <div className="product-details-info">
-                  <div>{product.createdAt}</div>
-                </div>
-              </div>
-              <hr />
-              <Button
-                className="mt-3"
-                onClick={() => setOpen(true)}
-                size="lg"
-                variant="dark"
-              >
-                {" "}
-                Upload Cover
-              </Button>
-            </div>
-          </Col>
-          <Col xs={12} md={3}>
-            <div className="mt-5">
-              <h4 className="text-center">Reviews</h4>
-              <hr />
-              <div className="reviewCont">
-                {reviews.map((review) => (
-                  <div
-                    key={review._id}
-                    className="my-1 d-flex flex-column p-2"
-                    style={{
-                      border: "1px solid #C0C0C0",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <h5>{review.comment}</h5>
-                    <small>
-                      Rate:{" "}
-                      {Array.from({ length: review.rate }).map((x) =>
-                        review.rate >= 3 ? "⭐️" : "🍅"
-                      )}
-                    </small>
-                    <small>{review.createdAt}</small>
-                    <small className="text-muted">id: {review._id}</small>
+                <div className="product-details-container">
+                  <div className="product-details-author">
+                    <p>{product[0].description}</p>
+                    Price: £{product[0].price}
                   </div>
-                ))}
+                  <div className="product-details-info">
+                    <div>{product[0].created_at}</div>
+                  </div>
+                </div>
+                <hr />
+                <Button
+                  className="mt-3"
+                  onClick={() => setOpen(true)}
+                  size="lg"
+                  variant="dark"
+                >
+                  {" "}
+                  Upload Cover
+                </Button>
               </div>
+            </Col>
+            <Col xs={12} md={3}>
+              <div className="mt-5">
+                <h4 className="text-center">Reviews</h4>
+                <hr />
+                <div className="reviewCont">
+                  {product[0].comment &&
+                    product.map((review) => (
+                      <div
+                        key={review.id}
+                        className="my-1 d-flex flex-column p-2"
+                        style={{
+                          border: "1px solid #C0C0C0",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <h5>{review.comment}</h5>
+                        <small>
+                          Rate:{" "}
+                          {Array.from({ length: review.rate }).map((x) =>
+                            review.rate >= 3 ? "⭐️" : "🍅"
+                          )}
+                        </small>
+                        <small>{review.createdAt}</small>
+                        <small className="text-muted">id: {review._id}</small>
+                      </div>
+                    ))}
+                </div>
 
-              <hr />
-              {/* UPDATE IMG */}
-              <Form
-                className="p-2"
-                onSubmit={postNewReview}
-                style={{ border: "1px solid #C0C0C0", borderRadius: "10px" }}
-              >
-                <h5 className="text-center">Leave a review</h5>
-                <Form.Group>
-                  <Form.Control
-                    defaultValue="1"
-                    size="auto"
-                    as="select"
-                    onChange={(e) =>
-                      setNewReview({ ...newReview, rate: e.target.value })
-                    }
-                  >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                  </Form.Control>
-                  <Form.Control
-                    size="auto"
-                    placeholder="Comment"
-                    className="mt-1"
-                    onChange={(e) =>
-                      setNewReview({ ...newReview, comment: e.target.value })
-                    }
-                  />
-                  <Form.Group className="d-flex justify-content-center mt-3">
-                    <Button type="submit" size="lg" variant="dark">
-                      Submit Review
-                    </Button>
+                <hr />
+                {/* UPDATE IMG */}
+                <Form
+                  className="p-2"
+                  onSubmit={postNewReview}
+                  style={{ border: "1px solid #C0C0C0", borderRadius: "10px" }}
+                >
+                  <h5 className="text-center">Leave a review</h5>
+                  <Form.Group>
+                    <Form.Control
+                      defaultValue="1"
+                      size="auto"
+                      as="select"
+                      onChange={(e) =>
+                        setNewReview({ ...newReview, rate: e.target.value })
+                      }
+                    >
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
+                    </Form.Control>
+                    <Form.Control
+                      size="auto"
+                      placeholder="Comment"
+                      className="mt-1"
+                      onChange={(e) =>
+                        setNewReview({ ...newReview, comment: e.target.value })
+                      }
+                    />
+                    <Form.Group className="d-flex justify-content-center mt-3">
+                      <Button type="submit" size="lg" variant="dark">
+                        Submit Review
+                      </Button>
+                    </Form.Group>
                   </Form.Group>
-                </Form.Group>
-              </Form>
-            </div>
-          </Col>
-        </Row>
+                </Form>
+              </div>
+            </Col>
+          </Row>
+        ) : (
+          <Spinner className="mt-5" animation="border" role="status" />
+        )}
         {/* IMG UPLOAD */}
         <Modal
           size="lg"

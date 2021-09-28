@@ -6,7 +6,7 @@ const NavBar = () => {
   return (
     <Navbar bg="light" variant="light">
       <Navbar.Brand as={Link} to="/">
-        Amazon
+        <small className='font-weight-bold font-italic'>not</small>Amazon
       </Navbar.Brand>
       <Nav className="mr-auto">
         <Link
