@@ -7,10 +7,10 @@ const NewProduct = () => {
     name: "",
     description: "",
     brand: "",
-    imageUrl: "",
     price: "",
     category: "",
   });
+  const [imgFile, setimgFile] = useState();
   const history = useHistory();
   const createNewProduct = async () => {
     try {
@@ -25,14 +25,35 @@ const NewProduct = () => {
         }
       );
       if (response.ok) {
-        alert("Success!");
-        history.push("/");
+        const data = await response.json();
+        submitForm(data.id);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  // IMAGE
+  const submitForm = async (id) => {
+    const fileFormData = new FormData();
+    fileFormData.append("image", imgFile);
 
+    try {
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadPhoto`,
+        {
+          method: "POST",
+          body: fileFormData,
+        }
+      );
+      if (response.ok) {
+        alert("Success!");
+        history.push("/");
+      } else {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const uploadProduct = (e) => {
     e.preventDefault();
     createNewProduct();
@@ -101,6 +122,15 @@ const NewProduct = () => {
             }
           />
         </Form.Group>
+        <Form>
+          <Form.Group>
+            <Form.File
+              id="exampleFormControlFile1"
+              label="Example file input"
+              onChange={(e) => setimgFile(e.target.files[0])}
+            />
+          </Form.Group>
+        </Form>
 
         <Form.Group className="d-flex mt-3 justify-content-end">
           <Button type="reset" size="lg" variant="outline-dark">

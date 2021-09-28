@@ -16,14 +16,14 @@ const Product = ({ match }) => {
 
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [reviews, setReviews] = useState([]);
+  // const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
     comment: "",
     rate: "",
     product_id: id,
   });
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState({img:''});
 
   const fetchProduct = async (id) => {
     try {
@@ -39,17 +39,17 @@ const Product = ({ match }) => {
       console.log(error);
     }
   };
-
+// IMAGE SENT
   const submitForm = async (e) => {
     e.preventDefault();
     const fileFormData = new FormData();
-    fileFormData.append("image", file);
+    fileFormData.append("image", file.img);
 
     try {
       let response = await fetch(
         `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadPhoto`,
         {
-          method: "PUT",
+          method: "POST",
           body: fileFormData,
         }
       );
@@ -63,20 +63,7 @@ const Product = ({ match }) => {
       console.log(error);
     }
   };
-
-  // const fetchReviews = async (id) => {
-  //   try {
-  //     let response = await fetch(
-  //       `${process.env.REACT_APP_URLFETCHING}/products/${id}/reviews`
-  //     );
-  //     let fetchedReviews = await response.json();
-  //     setReviews(fetchedReviews);
-  //     // setLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
+  // New Review
   const postNewReview = async (e) => {
     e.preventDefault(e);
     try {
@@ -233,11 +220,7 @@ const Product = ({ match }) => {
                 <Form.Label>Choose</Form.Label>
                 <Form.Control
                   onChange={(e) => {
-                    const file = e.target.files[0];
-                    console.log(`Number 1 ${e.target}`);
-                    console.log(e.target.files);
-                    console.log(file);
-                    setFile(file);
+                    setFile({img:e.target.files[0]});
                   }}
                   accept="image/*"
                   type="file"
