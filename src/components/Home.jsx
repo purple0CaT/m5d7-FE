@@ -45,7 +45,7 @@ const Home = () => {
     <Container fluid="sm">
       <Row>
         <Col xs="12" md="9">
-          <h1 className="blog-main-title">Welcomennnnne</h1>
+          <h1 className="blog-main-title">Welcomennnne</h1>
         </Col>
         <Col xs="12" md="3">
           <Form.Control
