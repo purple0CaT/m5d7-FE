@@ -53,6 +53,7 @@ const Home = () => {
             as="select"
             onChange={(e) => fetchProducts(1, e.target.value)}
           >
+            <option value="">none</option>
             {!Loading &&
               Categ.map((c) => <option value={c.text}>{c.text}</option>)}
           </Form.Control>
