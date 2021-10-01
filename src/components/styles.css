@@ -52,3 +52,24 @@
   /* box-shadow: 0 0 rgba(128, 128, 128, 0.8), 0 -10px 5px rgba(128, 128, 128, 0.8) inset,
     0 0 black, 0 0 black; */
 }
+.page button {
+  border: 1px solid rgba(128, 128, 128, 0.4) !important;
+  background-color: rgb(228, 228, 228);
+  width: 4rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.page button:hover {
+  box-shadow: 0 0 15px rgba(128, 128, 128, 0.5);
+  border: 1px solid white;
+}
+.activeP {
+  background-color: white !important;
+}
+.page button:active {
+  box-shadow: 0 0 15px rgba(128, 128, 128, 0.5);
+  border: 1px solid grey;
+  background-color: rgb(182, 182, 182);
+  color: white !important;
+}

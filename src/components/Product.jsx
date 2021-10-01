@@ -15,7 +15,7 @@ const Product = ({ match }) => {
   const { id } = match.params;
 
   const [product, setProduct] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [Loading, setLoading] = useState(true);
   // const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
     comment: "",
@@ -23,7 +23,7 @@ const Product = ({ match }) => {
     product_id: id,
   });
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState({img:''});
+  const [file, setFile] = useState({ img: "" });
 
   const fetchProduct = async (id) => {
     try {
@@ -32,14 +32,15 @@ const Product = ({ match }) => {
       );
       if (response.ok) {
         const data = await response.json();
+        setProduct(data[0]);
         setLoading(false);
-        setProduct(data);
+        console.log(product);
       }
     } catch (error) {
       console.log(error);
     }
   };
-// IMAGE SENT
+  // IMAGE SENT
   const submitForm = async (e) => {
     e.preventDefault();
     const fileFormData = new FormData();
@@ -94,26 +95,26 @@ const Product = ({ match }) => {
 
   return (
     <div className="product-details-root">
-      <Container>
-        {!loading && product[0] ? (
+      <Container className={Loading && "text-center"}>
+        {!Loading && product ? (
           <Row>
             <Col xs="12" md={9} className="p-1">
               <img
                 className="product-details-cover w-100"
-                src={product[0].image_url}
+                src={product.image}
                 style={{ maxHeight: "20rem", objectFit: "contain" }}
               />
               <div className="p-2">
-                <h1 className="product-details-title">{product[0].name}</h1>
-                <h4 className="product-details-title">{product[0].brand}</h4>
+                <h1 className="product-details-title">{product.name}</h1>
+                <h4 className="product-details-title">{product.brand}</h4>
 
                 <div className="product-details-container">
                   <div className="product-details-author">
-                    <p>{product[0].description}</p>
-                    Price: £{product[0].price}
+                    <p>{product.description}</p>
+                    Price: £{product.price}
                   </div>
                   <div className="product-details-info">
-                    <div>{product[0].created_at}</div>
+                    <div>{product.created_at}</div>
                   </div>
                 </div>
                 <hr />
@@ -133,8 +134,8 @@ const Product = ({ match }) => {
                 <h4 className="text-center">Reviews</h4>
                 <hr />
                 <div className="reviewCont">
-                  {product[0].comment &&
-                    product.map((review) => (
+                  {product.reviews &&
+                    product.reviews.map((review) => (
                       <div
                         key={review.id}
                         className="my-1 d-flex flex-column p-2"
@@ -143,7 +144,7 @@ const Product = ({ match }) => {
                           borderRadius: "10px",
                         }}
                       >
-                        <h5>{review.comment}</h5>
+                        <h5>{review.text}</h5>
                         <small>
                           Rate:{" "}
                           {Array.from({ length: review.rate }).map((x) =>
@@ -151,7 +152,7 @@ const Product = ({ match }) => {
                           )}
                         </small>
                         <small>{review.createdAt}</small>
-                        <small className="text-muted">id: {review._id}</small>
+                        <small className="text-muted">User: {review.user.name}</small>
                       </div>
                     ))}
                 </div>
@@ -198,7 +199,11 @@ const Product = ({ match }) => {
             </Col>
           </Row>
         ) : (
-          <Spinner className="mt-5" animation="border" role="status" />
+          <Spinner
+            className="mt-5 text-center"
+            animation="border"
+            role="status"
+          />
         )}
         {/* IMG UPLOAD */}
         <Modal
@@ -220,7 +225,7 @@ const Product = ({ match }) => {
                 <Form.Label>Choose</Form.Label>
                 <Form.Control
                   onChange={(e) => {
-                    setFile({img:e.target.files[0]});
+                    setFile({ img: e.target.files[0] });
                   }}
                   accept="image/*"
                   type="file"
