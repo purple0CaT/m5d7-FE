@@ -52,6 +52,16 @@
   /* box-shadow: 0 0 rgba(128, 128, 128, 0.8), 0 -10px 5px rgba(128, 128, 128, 0.8) inset,
     0 0 black, 0 0 black; */
 }
+.gap {
+  flex: 0 0 33.333333%;
+  text-align: center;
+}
+.page {
+  margin: 0 1rem;
+}
+.navlink:hover {
+  text-decoration: none !important;
+}
 .page button {
   border: 1px solid rgba(128, 128, 128, 0.4) !important;
   background-color: rgb(228, 228, 228);
@@ -72,4 +82,18 @@
   border: 1px solid grey;
   background-color: rgb(182, 182, 182);
   color: white !important;
+}
+.selected {
+  border-radius: 3px;
+  /* padding: 0 0.2rem; */
+  border-bottom: 4px solid teal;
+}
+.not-amazon {
+  border-radius: 4px;
+  padding: 0 0.2rem;
+  border-bottom: 4px solid rgba(194, 23, 0, 0.445);
+}
+
+.btn {
+  border-radius: 10px !important;
 }

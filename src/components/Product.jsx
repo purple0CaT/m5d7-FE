@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Modal,
-  Form,
-  Button,
-  Row,
-  Col,
-  Spinner,
-} from "react-bootstrap";
+import { Container, Form, Button, Row, Col, Spinner } from "react-bootstrap";
 import { withRouter } from "react-router";
+import UploadProdCover from "./UploadProdCover";
 // import uniqid from "uniqid";
 
 const Product = ({ match }) => {
   const { id } = match.params;
-
   const [product, setProduct] = useState([]);
   const [Loading, setLoading] = useState(true);
-  // const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
     comment: "",
     rate: "",
     product_id: id,
   });
-  const [open, setOpen] = useState(false);
-  const [file, setFile] = useState({ img: "" });
 
+  // FETCH PRODUCT
   const fetchProduct = async (id) => {
     try {
       const response = await fetch(
@@ -34,36 +24,12 @@ const Product = ({ match }) => {
         const data = await response.json();
         setProduct(data[0]);
         setLoading(false);
-        console.log(product);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  // IMAGE SENT
-  const submitForm = async (e) => {
-    e.preventDefault();
-    const fileFormData = new FormData();
-    fileFormData.append("image", file.img);
 
-    try {
-      let response = await fetch(
-        `${process.env.REACT_APP_URLFETCHING}/products/${id}/uploadPhoto`,
-        {
-          method: "POST",
-          body: fileFormData,
-        }
-      );
-      if (response.ok) {
-        setOpen(false);
-        alert("Success!");
-        fetchProduct(id);
-      } else {
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   // New Review
   const postNewReview = async (e) => {
     e.preventDefault(e);
@@ -118,15 +84,11 @@ const Product = ({ match }) => {
                   </div>
                 </div>
                 <hr />
-                <Button
-                  className="mt-3"
-                  onClick={() => setOpen(true)}
-                  size="lg"
-                  variant="dark"
-                >
-                  {" "}
-                  Upload Cover
-                </Button>
+                {/* UPLOAD COVER BUTTON */}
+                <UploadProdCover
+                  id={id}
+                  fetchProduct={() => fetchProduct(id)}
+                />
               </div>
             </Col>
             <Col xs={12} md={3}>
@@ -152,13 +114,15 @@ const Product = ({ match }) => {
                           )}
                         </small>
                         <small>{review.createdAt}</small>
-                        <small className="text-muted">User: {review.user.name}</small>
+                        <small className="text-muted">
+                          User: {review.user.name}
+                        </small>
                       </div>
                     ))}
                 </div>
 
                 <hr />
-                {/* UPDATE IMG */}
+                {/*ADD REVIEW*/}
                 <Form
                   className="p-2"
                   onSubmit={postNewReview}
@@ -206,49 +170,6 @@ const Product = ({ match }) => {
           />
         )}
         {/* IMG UPLOAD */}
-        <Modal
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-          show={open}
-          animation={false}
-        >
-          <Modal.Header>
-            <Modal.Title>Upload Image</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={submitForm}>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Choose</Form.Label>
-                <Form.Control
-                  onChange={(e) => {
-                    setFile({ img: e.target.files[0] });
-                  }}
-                  accept="image/*"
-                  type="file"
-                  placeholder="Photo"
-                  required
-                />
-              </Form.Group>
-              <Form.Group className="d-flex justify-content-end">
-                <Button
-                  className="mr-2"
-                  onClick={() => setOpen(false)}
-                  size="lg"
-                  variant="light"
-                >
-                  Close
-                </Button>
-                <Button type="submit" size="lg" variant="dark">
-                  Submit
-                </Button>
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-        </Modal>
       </Container>
     </div>
   );

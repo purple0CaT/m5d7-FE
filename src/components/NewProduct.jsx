@@ -60,7 +60,7 @@ const NewProduct = () => {
   };
 
   return (
-    <Container className="new-product-container">
+    <Container className="new-product-container w-50" md="w-50">
       <Form className="mt-5" onSubmit={uploadProduct}>
         <Form.Group controlId="product-form" className="mt-3">
           <Form.Label>Brand</Form.Label>

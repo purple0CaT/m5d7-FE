@@ -4,33 +4,41 @@ import { Link } from "react-router-dom";
 // import BlogList from "../../components/blog/blog-list";
 
 const Home = () => {
-  const [Loading, setLoading] = useState(true);
+  const [LoadPageBtn, setLoadPageBtn] = useState(true);
   const [productsArray, setProductsArray] = useState([]);
   const [Pages, setPages] = useState({ pages: "", curentP: 1 });
   const [Categ, setCateg] = useState();
-  //=
+  const [Search, setSearch] = useState(false);
+
+  //=FETCH ALL PRODUCTS
   const fetchProducts = async (page, search) => {
     let searchVal = typeof search !== "undefined" ? search : "";
     try {
       let response = await fetch(
         `${process.env.REACT_APP_URLFETCHING}/products?search=${searchVal}&page=${page}`
       );
-      let products = await response.json();
-      setProductsArray(products[0]);
-      setPages(products[1]);
-      setLoading(false);
+      if (response.ok) {
+        let products = await response.json();
+        setProductsArray(products[0]);
+        setPages(products[1]);
+        setSearch(searchVal ? false : true);
+        setLoadPageBtn(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  //=
+  //= FETCH CATEGORY
   const fetchCateg = async () => {
     try {
       let response = await fetch(
         `${process.env.REACT_APP_URLFETCHING}/categories`
       );
-      let data = await response.json();
-      setCateg(data);
+      if (response.ok) {
+        let data = await response.json();
+        setCateg(data);
+        setSearch(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -54,13 +62,13 @@ const Home = () => {
             onChange={(e) => fetchProducts(1, e.target.value)}
           >
             <option value="">none</option>
-            {!Loading &&
-              Categ.map((c) => <option value={c.text}>{c.text}</option>)}
+            {!LoadPageBtn &&
+              Categ.map((c) => <option value={c.id}>{c.text}</option>)}
           </Form.Control>
         </Col>
       </Row>
-      <Row className={Loading && "justify-content-center"}>
-        {Loading ? (
+      <Row className={LoadPageBtn && "justify-content-center"}>
+        {LoadPageBtn ? (
           <Spinner className="mt-5" animation="border" role="status" />
         ) : (
           productsArray.map((product) => (
@@ -83,11 +91,16 @@ const Home = () => {
           ))
         )}
       </Row>
-      <Row className="justify-content-center my-3">
-        {!Loading &&
+      <Row className="justify-content-center my-3 gap">
+        {!LoadPageBtn &&
+          Search &&
           Array.from({ length: Math.ceil(Pages.pages / 5) }, (v, i) => i).map(
             (m) => (
-              <Col className="page text-center" xs={1} key={123 + m + "h"}>
+              <Col
+                className="page text-center"
+                xs={1}
+                key={13 + m + "h123ffas"}
+              >
                 <button
                   value={m + 1}
                   // className={Pages.curentP + 1 === this.value && "activeP"}
