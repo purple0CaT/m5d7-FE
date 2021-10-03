@@ -97,3 +97,59 @@
 .btn {
   border-radius: 10px !important;
 }
+
+/* CART */
+.cart-btn {
+  position: absolute;
+  right: 1%;
+  top: 9%;
+  border-radius: 50% 2%/ 30%;
+  width: 3rem;
+  height: 3rem;
+  border: 0px solid grey;
+  background-color: teal;
+  color: white;
+  transition: 0.2s;
+}
+.cart-btn:hover {
+  background-color: rgba(0, 128, 128, 0.842);
+  box-shadow: 0 0 15px rgba(0, 128, 128, 0.7);
+}
+.cart-btn:active {
+  transform: scale(0.98);
+  background-color: rgb(0, 97, 97);
+}
+/* == */
+.carts {
+  position: absolute;
+  right: 10px;
+  top: 9%;
+  width: 14%;
+  min-width: 12rem;
+  border-radius: 20px;
+  border: 1px solid rgba(128, 128, 128, 0.425);
+  background-color: white;
+  z-index: 99;
+  padding: 0.2rem 0.3rem;
+  transition: 0.2s;
+  box-shadow: 0 0 10px rgba(128, 128, 128, 0.425);
+}
+.cart {
+  border: 1px solid rgba(128, 128, 128, 0.63);
+  border-radius: 12px;
+  margin-bottom: 0.1rem;
+  padding: 0.2rem 0.4rem;
+}
+.deleteCart {
+  border-radius: 50%;
+  background-color: white;
+  padding: 0;
+  border: unset;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

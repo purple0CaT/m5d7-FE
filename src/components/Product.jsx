@@ -15,10 +15,10 @@ const Product = ({ match }) => {
   });
 
   // FETCH PRODUCT
-  const fetchProduct = async (id) => {
+  const fetchProduct = async (prdId) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_URLFETCHING}/products/${id}`
+        `${process.env.REACT_APP_URLFETCHING}/products/${prdId}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -69,6 +69,7 @@ const Product = ({ match }) => {
                 className="product-details-cover w-100"
                 src={product.image}
                 style={{ maxHeight: "20rem", objectFit: "contain" }}
+                alt="heeey"
               />
               <div className="p-2">
                 <h1 className="product-details-title">{product.name}</h1>

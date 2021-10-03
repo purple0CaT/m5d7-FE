@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Card, Spinner, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Cart from "./Cart";
 // import BlogList from "../../components/blog/blog-list";
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
   const [Pages, setPages] = useState({ pages: "", curentP: 1 });
   const [Categ, setCateg] = useState();
   const [Search, setSearch] = useState(false);
+  const [CatLoad, setCatLoad] = useState(true);
 
   //=FETCH ALL PRODUCTS
   const fetchProducts = async (page, search) => {
@@ -38,6 +40,7 @@ const Home = () => {
         let data = await response.json();
         setCateg(data);
         setSearch(true);
+        setCatLoad(false);
       }
     } catch (error) {
       console.log(error);
@@ -51,6 +54,7 @@ const Home = () => {
 
   return (
     <Container fluid="sm">
+      <Cart />
       <Row>
         <Col xs="12" md="9">
           <h1 className="blog-main-title">Welcomennnne</h1>
@@ -62,7 +66,7 @@ const Home = () => {
             onChange={(e) => fetchProducts(1, e.target.value)}
           >
             <option value="">none</option>
-            {!LoadPageBtn &&
+            {!CatLoad &&
               Categ.map((c) => <option value={c.id}>{c.text}</option>)}
           </Form.Control>
         </Col>
@@ -78,13 +82,17 @@ const Home = () => {
                 className="myCard h-100 w-100 card"
               >
                 <Card.Img variant="top" src={product.image} />
-                <Card.Body className="px-3 pb-2 text-dark">
+                <Card.Body className="px-3 pb-2 text-dark d-flex flex-column">
                   <Card.Title>
                     {product.brand} {product.name}
                   </Card.Title>
                   <p className="m-0 font-weight-bold text-black-50">
                     Price :£{product.price}
                   </p>
+                  <div className="mt-auto text-center">
+                    <hr />
+                    <button className="btn btn-info">Add to cart</button>
+                  </div>
                 </Card.Body>
               </Link>
             </Col>
@@ -92,7 +100,7 @@ const Home = () => {
         )}
       </Row>
       <Row className="justify-content-center my-3 gap">
-        {!LoadPageBtn &&
+        {LoadPageBtn &&
           Search &&
           Array.from({ length: Math.ceil(Pages.pages / 5) }, (v, i) => i).map(
             (m) => (
@@ -103,7 +111,6 @@ const Home = () => {
               >
                 <button
                   value={m + 1}
-                  // className={Pages.curentP + 1 === this.value && "activeP"}
                   onClick={(e) => fetchProducts(e.target.value)}
                 >
                   {m + 1}
