@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { TiDeleteOutline } from "react-icons/ti";
 
-export default function Cart() {
+export default function Cart({ LastAdd }) {
   const [CartShow, setCartShow] = useState(false);
   const [Cart, setCart] = useState([]);
   const userId = 1;
@@ -40,7 +40,7 @@ export default function Cart() {
   // ===
   useEffect(() => {
     getCart();
-  }, []);
+  }, [LastAdd]);
   return (
     <>
       {!CartShow && (

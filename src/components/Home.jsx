@@ -11,6 +11,8 @@ const Home = () => {
   const [Categ, setCateg] = useState();
   const [Search, setSearch] = useState(false);
   const [CatLoad, setCatLoad] = useState(true);
+  const [CartAdd, setCartAdd] = useState({ userId: 1 });
+  const [LastAdd, setLastAdd] = useState([]);
 
   //=FETCH ALL PRODUCTS
   const fetchProducts = async (page, search) => {
@@ -46,6 +48,32 @@ const Home = () => {
       console.log(error);
     }
   };
+  // === ADD TO CART
+  const addToCart12 = (prodId) => {
+    console.log(prodId);
+  };
+  const addToCart = async (prodId) => {
+    await setCartAdd({ ...CartAdd, productId: prodId });
+    try {
+      let response = await fetch(
+        `${process.env.REACT_APP_URLFETCHING}/cart/${prodId}`,
+        {
+          method: "POST",
+          body: JSON.stringify(CartAdd),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        let data = await response.json();
+        alert("Added!");
+        setLastAdd(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchProducts(1);
@@ -54,7 +82,9 @@ const Home = () => {
 
   return (
     <Container fluid="sm">
-      <Cart />
+      {/* CART */}
+      <Cart lastCard={LastAdd} />
+      {/* === */}
       <Row>
         <Col xs="12" md="9">
           <h1 className="blog-main-title">Welcomennnne</h1>
@@ -77,24 +107,30 @@ const Home = () => {
         ) : (
           productsArray.map((product) => (
             <Col xs={12} md={4} className="my-3">
-              <Link
-                to={`/product/${product.id}`}
-                className="myCard h-100 w-100 card"
-              >
-                <Card.Img variant="top" src={product.image} />
-                <Card.Body className="px-3 pb-2 text-dark d-flex flex-column">
-                  <Card.Title>
-                    {product.brand} {product.name}
-                  </Card.Title>
-                  <p className="m-0 font-weight-bold text-black-50">
-                    Price :£{product.price}
-                  </p>
-                  <div className="mt-auto text-center">
-                    <hr />
-                    <button className="btn btn-info">Add to cart</button>
-                  </div>
-                </Card.Body>
-              </Link>
+              <div className="myCard h-100 w-100 card">
+                <Link to={`/product/${product.id}`} className="anchorUnset">
+                  <Card.Img variant="top" src={product.image} />
+                  <Card.Body className="px-3 pb-2 text-dark d-flex flex-column">
+                    <Card.Title>
+                      {product.brand} {product.name}
+                    </Card.Title>
+                    <p className="m-0 font-weight-bold text-black-50">
+                      Price :£{product.price}
+                    </p>
+                  </Card.Body>
+                </Link>
+                <div
+                  className="mt-auto text-center"
+                  style={{ borderTop: "1px solid rgb(128,128,128, 0.5)" }}
+                >
+                  <button
+                    onClick={(e) => addToCart(product.id)}
+                    className="btn btn-info my-1"
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </div>
             </Col>
           ))
         )}
